@@ -45,7 +45,7 @@ Route::post('/VerifyMail', [Verifymail::class, 'store']);
 
 
 Route::get('/token-verification', [TokenVerification::class, 'index'])->name('TokenVerification');
-Route::post('/token-verification/{token}', [TokenVerification::class, 'store'])->name('TokenVerification.show');
-// Route::post('/TokenVerification', [TokenVerification::class, 'store']);
+Route::post('/token-verification/{token}', [TokenVerification::class, 'show'])->name('TokenVerification.show');
+Route::post('/token-verification', [TokenVerification::class, 'store']);
 
 
