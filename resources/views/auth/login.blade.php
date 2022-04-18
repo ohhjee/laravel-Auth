@@ -8,7 +8,7 @@
                     {{ session('status') }}
                 </div>
             @endif
-            <form action="{{ route('login') }}" method="post">
+            <form action="{{ route('login.index') }}" method="post">
                 @csrf
                 <div class="mb-4">
                     <label for="name" class="sr-only">email</label>
@@ -49,7 +49,7 @@
                         class="bg-blue-500 text-white px-4 py-3 rounded font-medium w-full capitalize">login</button>
                 </div>
                 <div class="">
-                    <a href="{{ route('register') }}" id="register"
+                    <a href="{{ route('register.index') }}" id="register"
                         class="bg-blue-500 text-white py-3 flex justify-center px-5 rounded font-medium w-full capitalize">register</a>
                 </div>
             </form>

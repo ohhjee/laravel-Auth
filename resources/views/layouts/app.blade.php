@@ -31,8 +31,8 @@
             @endauth
 
             @guest
-                <li> <a href="{{ route('login') }}" class="mx-3 text-xs md:text-sm capitalize font-medium">login</a></li>
-                <li> <a href="{{ route('register') }}" class="text-xs md:text-sm capitalize font-medium">register</a>
+                <li> <a href="{{ route('login.index') }}" class="mx-3 text-xs md:text-sm capitalize font-medium">login</a></li>
+                <li> <a href="{{ route('register.index') }}" class="text-xs md:text-sm capitalize font-medium">register</a>
                 </li>
             @endguest
         </ul>

@@ -11,36 +11,27 @@ use Illuminate\Support\Facades\Hash;
 
 class TokenVerification extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function __construct()
     {
         $this->middleware(['guest']);
     }
-    public function index(Request $request)
+
+    public function index(Request $request, $token)
     {
-       
-        return view('auth.TokenVerification');
+        return view('auth.token-verification')->with(["token" => $token]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
+            "token" => 'required',
             'password' => 'required|min:6|confirmed',
         ]);
-        $user = User::where('', $request->Input('email'))->first();
 
-        $new_password  = Hash::make($request->password);
-        $user->password = $new_password;
+        $user = User::where('remember_token', $request->get("token"))->first();
+        if (!$user) return redirect()->back()->with(["status" => "This token has expired"]);
+
+        $user->password = Hash::make($request->password);
         $user->remember_token = null;
         $user->save();
         return redirect('login');
@@ -49,22 +40,24 @@ class TokenVerification extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return string
      */
-    public function show(ResetToken $data)
+    public function show(Request $request, $token)
     {
-        
-        // return view('auth.TokenVerification', [
-        //     'data' => $data,
-        // ]);
+
+        $user = User::where("remember_token", $token)->first();
+
+        if (!$user) return route("VerifyMail", ["status" => "Token has expired"]);
+
+        return redirect("");
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -75,7 +68,7 @@ class TokenVerification extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
